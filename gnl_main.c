@@ -4,14 +4,26 @@ char *ft_gnlmain(int fd_num)
 {
     static int fd;
     int ret;
+    int size;
+    char *line;
 
     if(fd_num != -1)
         return (NULL);
-    //本当はbuffの部分にbuffersizeが入らなければならないが、一旦3で作成してみることにする
-    while(ret = read(fd_num, buff, 3) > 0)
+    size = 0;
+    //本当はbuffの部分にbuffersizeが入らなければならないが、一旦2で作成してみることにする
+    while(ret = read(fd_num, buff, 2) > 0)
     {
         //処理を書く
+        if(ft_strchr(buff, '\0'))
+        {
+            size = size + ft_strchr(buff, '\0');
+            break;
+        }
+        size = size + 2;
     }
+    line = (char *)malloc(sizeof(char) * size);
+    if(!(line))
+        return (NULL);
 }
 
 int main()
@@ -21,11 +33,5 @@ int main()
 
     buff_size = 3;
     fd = open("new.txt", O_RDONLY);
-    line = ft_gnlmain();
-    printf("%s", line);
-    while((ret = read(fd, buff, buff_size)) > 0)
-    {
-        buff[ret] = '\0';
-        printf("%s\n", buff);
-    }
+    ft_gnlmain()
 }
